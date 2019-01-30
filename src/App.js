@@ -26,14 +26,10 @@ function TopAppBar(props) {
         <Toolbar>
 	        <Grid container justify="space-between">
 						<Grid item>
-							<Typography variant="h5" color="inherit">
-		            Trello Newtral
-		          </Typography>
+							<Typography component="h1" variant="h5" color="inherit">Trello React</Typography>
 						</Grid>
 						<Grid item>
-							<Button color="inherit" title="Add a new column" onClick={props.addColumn}>
-								Add column
-							</Button>
+							<Button color="inherit" title="Add a new column" onClick={props.addColumn}>Add column</Button>
 						</Grid>
 					</Grid>
         </Toolbar>
@@ -48,12 +44,9 @@ function DialogColumn(props) {
       <DialogTitle id="form-dialog-column">Enter the name of the column</DialogTitle>
       <DialogContent>
       	{ props.isShowedErrorColumn &&
-      	<DialogContentText color="secondary">
-          Please fill the name to send data.
-        </DialogContentText>
+      	<DialogContentText color="secondary">Please fill the name to send data.</DialogContentText>
         }
         <TextField
-          autoFocus
           margin="dense"
           type="text"
           name="name"
@@ -61,15 +54,12 @@ function DialogColumn(props) {
           value={props.name}
           onChange={props.handleChange}
           fullWidth
+          autoFocus
         />
       </DialogContent>
       <DialogActions>
-        <Button onClick={props.hideDialogColumn} color="secondary" title="Cancel this action and close the window">
-          Cancel
-        </Button>
-        <Button onClick={props.createColumn} color="primary" title="Create a new column">
-          Create column
-        </Button>
+        <Button onClick={props.hideDialogColumn} color="secondary" title="Cancel this action and close the window">Cancel</Button>
+        <Button onClick={props.createColumn} color="primary" title="Create a new column">Create column</Button>
       </DialogActions>
     </Dialog>
   );
@@ -93,19 +83,14 @@ function DialogCard(props) {
   		<DialogTitle id="form-dialog-card">{title}</DialogTitle>
   		{ (props.action === 'delete') ? (
   		<DialogContent>
-  			<DialogContentText>
-          Are you sure you want to delete this card?
-        </DialogContentText>
+  			<DialogContentText>Are you sure you want to delete this card?</DialogContentText>
       </DialogContent>
       ) : (
      	<DialogContent>
       	{ props.isShowedErrorCard &&
-      	<DialogContentText color="secondary">
-          Please fill all fields to send data.
-        </DialogContentText>
+      	<DialogContentText color="secondary">Please fill all fields to send data.</DialogContentText>
         }
         <TextField
-          autoFocus
           margin="dense"
           type="text"
           name="title"
@@ -113,6 +98,7 @@ function DialogCard(props) {
           value={props.title}
           onChange={props.handleChange}
           fullWidth
+          autoFocus
         />
         <TextField
           margin="dense"
@@ -127,9 +113,7 @@ function DialogCard(props) {
       </DialogContent>
       )}
       <DialogActions>
-        <Button onClick={props.hideDialogCard} color="secondary" title="Cancel this action and close the window">
-          Cancel
-        </Button>
+        <Button onClick={props.hideDialogCard} color="secondary" title="Cancel this action and close the window">Cancel</Button>
         { button }
       </DialogActions>
     </Dialog>
@@ -147,20 +131,12 @@ function CardItem(props) {
 		<div style={styles.card}>
 			<Card>
 	      <CardContent>
-	        <Typography gutterBottom variant="h6" component="h3">
-	          {props.card.title}
-	        </Typography>
-	        <Typography component="p">
-	          {props.card.description}
-	        </Typography>
+	        <Typography gutterBottom component="h3" variant="h6">{props.card.title}</Typography>
+	        <Typography component="p">{props.card.description}</Typography>
 	      </CardContent>
 	      <CardActions>
-	        <Button size="small" color="secondary" title="Delete this card" onClick={props.deleteCard}>
-	          Delete
-	        </Button>
-	        <Button size="small" color="primary" title="Edit this card" onClick={props.editCard}>
-	          Edit
-	        </Button>
+	        <Button size="small" color="secondary" title="Delete this card" onClick={props.deleteCard}>Delete</Button>
+	        <Button size="small" color="primary" title="Edit this card" onClick={props.editCard}>Edit</Button>
 	      </CardActions>
 	    </Card>
 	  </div>
@@ -177,19 +153,22 @@ function Column(props) {
 	};
 	return (
 		<Grid item xs={12} sm={6} md={4} lg={3} xl={2} style={styles.root}>
-			<Typography gutterBottom variant="h6" component="h2">
-        {props.title}
-      </Typography>
+			<Typography gutterBottom component="h2" variant="h6">{props.title}</Typography>
 			{ props.cards.length > 0 &&
 				props.cards.map((item, index) => 
-					<CardItem key={index} card={item} indexColumn={props.indexColumn} indexCard={index} deleteCard={() => props.deleteCard(props.indexColumn, index)} editCard={() => props.editCard(props.indexColumn, index)} />
+					<CardItem
+						key={index}
+						card={item}
+						indexColumn={props.indexColumn}
+						indexCard={index}
+						deleteCard={() => props.deleteCard(props.indexColumn, index)}
+						editCard={() => props.editCard(props.indexColumn, index)}
+					/>
 				)
 			}
 			<Grid container justify="center">
 				<Grid item>
-					<Button color="primary" variant="contained" title="Add a new card" onClick={props.addCard}>
-						Add card
-					</Button>
+					<Button color="primary" variant="contained" title="Add a new card" onClick={props.addCard}>Add card</Button>
 				</Grid>
 			</Grid>
 		</Grid>
@@ -208,7 +187,15 @@ function ColumnList(props) {
 		<Grid container style={styles.root}>
 			{
 				props.data.map((item, index) => 
-					<Column key={index} title={item.title} cards={item.cards} indexColumn={index} addCard={() => props.addCard(index)} deleteCard={props.deleteCard} editCard={props.editCard} />
+					<Column
+						key={index}
+						title={item.title}
+						cards={item.cards}
+						indexColumn={index}
+						addCard={() => props.addCard(index)}
+						deleteCard={props.deleteCard}
+						editCard={props.editCard}
+					/>
 				)
 			}
 		</Grid>
@@ -222,33 +209,32 @@ class App extends React.Component {
 		this.state = {
 			data: [
 				{
-					title: 'Columna de ejemplo',
-					cards: [{ title: 'Título de ejemplo', description: 'Descripción de ejemplo' }]
+					title: 'Default column',
+					cards: [{ title: 'Default title', description: 'This is a default text' }]
 				}
 			],
-			name: '',
-			title: '',
-			description: '',
 			action: null,
 			activeColumn: null,
 			activeCard: null,
+			name: '',
+			title: '',
+			description: '',
 			isShowedDialogColumn: false,
 			isShowedErrorColumn: false,
 			isShowedDialogCard: false,
-			isShowedErrorCard: false,
-			isShowedDialogDelete: true
+			isShowedErrorCard: false
 		};
 		this.handleChange = this.handleChange.bind(this);
 		this.addColumn = this.addColumn.bind(this);
 		this.createColumn = this.createColumn.bind(this);
 		this.hideDialogColumn = this.hideDialogColumn.bind(this);
-		this.hideDialogCard = this.hideDialogCard.bind(this);
 		this.addCard = this.addCard.bind(this);
 		this.createCard = this.createCard.bind(this);
 		this.deleteCard = this.deleteCard.bind(this);
 		this.removeCard = this.removeCard.bind(this);
 		this.editCard = this.editCard.bind(this);
 		this.saveCard = this.saveCard.bind(this);
+		this.hideDialogCard = this.hideDialogCard.bind(this);
 	}
 
 	handleChange(event) {
@@ -275,9 +261,9 @@ class App extends React.Component {
 
 	hideDialogColumn() {
 		this.setState(prevState => ({
+			name: '',
       isShowedDialogColumn: false,
-      isShowedErrorColumn: false,
-      name: ''
+      isShowedErrorColumn: false
     }));
 	}
 
@@ -303,9 +289,9 @@ class App extends React.Component {
 
 	deleteCard(indexColumn, indexCard) {
 		this.setState(prevState => ({
+			action: 'delete',
 			activeColumn: indexColumn,
 			activeCard: indexCard,
-			action: 'delete',
 			isShowedDialogCard: true
     }));
 	}
@@ -318,9 +304,9 @@ class App extends React.Component {
 
 	editCard(indexColumn, indexCard) {
 		this.setState(prevState => ({
+			action: 'edit',
 			activeColumn: indexColumn,
 			activeCard: indexCard,
-			action: 'edit',
 			title: this.state.data[indexColumn].cards[indexCard].title,
 			description: this.state.data[indexColumn].cards[indexCard].description,
 			isShowedDialogCard: true
@@ -341,10 +327,10 @@ class App extends React.Component {
 
 	hideDialogCard() {
 		this.setState(prevState => ({
-      isShowedDialogCard: false,
-      isShowedErrorCard: false,
       title: '',
-      description: ''
+      description: '',
+      isShowedDialogCard: false,
+      isShowedErrorCard: false
     }));
 	}
 
@@ -361,24 +347,24 @@ class App extends React.Component {
 					editCard={this.editCard}
 				/>
 				<DialogColumn
+					name={this.state.name}
 					isShowedDialogColumn={this.state.isShowedDialogColumn}
 					isShowedErrorColumn={this.state.isShowedErrorColumn}
 					createColumn={this.createColumn}
+					handleChange={this.handleChange}					
 					hideDialogColumn={this.hideDialogColumn}
-					handleChange={this.handleChange}
-					name={this.state.name}
 				/>
 				<DialogCard
+					title={this.state.title}
+					description={this.state.description}
+					action={this.state.action}
 					isShowedDialogCard={this.state.isShowedDialogCard}
 					isShowedErrorCard={this.state.isShowedErrorCard}
 					createCard={this.createCard}
 					removeCard={this.removeCard}
 					saveCard={this.saveCard}
-					hideDialogCard={this.hideDialogCard}
 					handleChange={this.handleChange}
-					title={this.state.title}
-					description={this.state.description}
-					action={this.state.action}
+					hideDialogCard={this.hideDialogCard}
 				/>
 			</div>
 		)
